@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="org.lionart.qurani.QuranConnection"/>
+    <classEntry path="org.lionart.qurani.QuranHelper"/>
+    <classEntry path="org.lionart.qurani.Soura"/>
+    <classEntry path="org.lionart.qurani.HizbMarker"/>
+    <classEntry path="org.lionart.qurani.Queries"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
