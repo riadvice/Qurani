@@ -14,13 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package org.lionart.qurani.exceptions
 {
 
-    [ExcludeClass]
-    public class Queries
+    public class QuranException extends Error
     {
-        public static const GET_AYA_SQL : String = "SELECT othmani, imlai FROM Quran WHERE id>= :ayaId ORDER BY id LIMIT :ayatLength";
-        public static const GET_SUWAR_INFO : String = 'SELECT rowid, sura_name, other_names, makki, starting_row, comment FROM SuraInfo ORDER BY rowid';
+        public function QuranException( message : *="", id : * = 0 )
+        {
+            super(message, id);
+        }
     }
 }

@@ -17,13 +17,20 @@
 package org.lionart.qurani
 {
     import flash.data.SQLConnection;
-    import flash.data.SQLStatement;
+    import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
     import flash.utils.Dictionary;
     
-    import mx.controls.Alert;
+    import org.lionart.qurani.events.QuranEvent;
+    import org.lionart.qurani.exceptions.QuranException;
 
-    public class Quran
+    [Event(name="getAya", type="org.lionart.qurani.events.QuranEvent")]
+    /**
+     * 
+     * @author Ghazi Triki
+     * 
+     */
+    public class Quran extends EventDispatcher
     {
 
         //--------------------------------------------------------------------------
@@ -33,22 +40,44 @@ package org.lionart.qurani
         //--------------------------------------------------------------------------
         
         [Bindable]
-        public static var basmalah : Aya;
+        /**
+         * 
+         * @return 
+         * 
+         */
+        public var basmalah : Aya;
 
+        /**
+         * 
+         */
         private static var _quran : Quran;
 
+        /**
+         * 
+         */
         private var connection : SQLConnection;
         
+        /**
+         * 
+         */
         private var souraIdByName : Dictionary; 
         
+        /**
+         * 
+         */
         private var souraInfoById : Dictionary; 
-
+        
         //--------------------------------------------------------------------------
         //
         //  Singleton accessor
         //
         //--------------------------------------------------------------------------
         
+        /**
+         * 
+         * @return 
+         * 
+         */
         public static function getInstance() : Quran
         {
             if (_quran == null)
@@ -57,19 +86,53 @@ package org.lionart.qurani
                 _quran.souraIdByName = new Dictionary(true);
                 _quran.souraInfoById = new Dictionary(true);
                 _quran.connection = QuranHelper.getConnection();
-                var suwarQuery : SQLStatement = QuranHelper.constructStatement( Queries.GET_SUWAR_INFO );
-                suwarQuery.addEventListener( SQLEvent.RESULT, suwarQueryOnResult);
-                suwarQuery.execute();
+                QuranHelper.executeQuery( Queries.GET_SUWAR_INFO, onSuwarQueryResult );
             }
             return _quran;
         }
-
+        
+        //--------------------------------------------------------------------------
+        //
+        //  API Methods
+        //
+        //--------------------------------------------------------------------------
+        /**
+         * 
+         * @param souraNumber
+         * @param ayaNumber
+         * 
+         */
+        public function getAya( souraNumber : int, ayaNumber : int ) : void
+        {
+            QuranHelper.executeQuery( Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId",":ayatLength"], [1,1]);
+        }
+        
+        private function validateSura( souraNumber : int ) : void
+        {
+            if ( souraNumber < 1 || souraNumber > 114 )
+            {
+                throw new QuranException();
+            }
+        }
+        
+        public function getAyaResultHandler( event : SQLEvent ) : void
+        {
+            // TODO : convert result to Aya
+            dispatchEvent( new QuranEvent(null, QuranEvent.GET_AYA) );
+        }
+        
+        
         //--------------------------------------------------------------------------
         //
         //  Events handlers
         //
         //--------------------------------------------------------------------------
-        private static function suwarQueryOnResult(event:SQLEvent):void
+        /**
+         * 
+         * @param event
+         * 
+         */
+        private static function onSuwarQueryResult(event:SQLEvent):void
         {
             var resultObj : Object;
             var soura : Soura;

@@ -14,31 +14,48 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package org.lionart.qurani.events
 {
+    import flash.events.Event;
 
     /**
      * 
      * @author Ghazi Triki
      * 
      */
-    public class Sajda
+    public class QuranEvent extends Event
     {
-        [Bindable]
+        public static const GET_AYA : String = "getAya";
+        public static const GET_SURA : String = "getSura";
+        
+        private var _result : Object;
+        
         /**
          * 
-         * The sura number where the Sajda is
+         * @param type
+         * @param bubbles
+         * @param cancelable
          * 
          */
-        public var suraNumber : int;
+        public function QuranEvent( result : Object, type : String, bubbles : Boolean = false, cancelable : Boolean = false )
+        {
+            _result = result;
+            super(type, bubbles, cancelable);
+        }
+        
+        public function get result() : Object
+        {
+            return _result;
+        }
 
-        [Bindable]
         /**
          * 
-         * @return 
+         * @inheritDoc
          * 
          */
-        public var ayaNumber : int;
-
+        override public function clone() : Event
+        {
+            return new QuranEvent(result, type, bubbles, cancelable);
+        }
     }
 }

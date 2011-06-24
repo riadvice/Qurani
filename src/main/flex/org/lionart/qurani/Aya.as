@@ -21,6 +21,9 @@ package org.lionart.qurani
     {
         
         [Bindable]
+        public var number: String;
+        
+        [Bindable]
         public var othmani: String;
         
         [Bindable]
