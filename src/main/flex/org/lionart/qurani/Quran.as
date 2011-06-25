@@ -21,14 +21,22 @@ package org.lionart.qurani
     import flash.events.SQLEvent;
     import flash.utils.Dictionary;
     
+    import mx.resources.ResourceManager;
+    
+    import org.lionart.qurani.converters.AyaConverter;
+    import org.lionart.qurani.converters.SouraConverter;
     import org.lionart.qurani.events.QuranEvent;
     import org.lionart.qurani.exceptions.QuranException;
 
-    [Event(name="getAya", type="org.lionart.qurani.events.QuranEvent")]
+    use namespace quran_internal;
+
+    [ResourceBundle("quran")]
+    
+    [Event(name = "getAya", type = "org.lionart.qurani.events.QuranEvent")]
     /**
-     * 
+     *
      * @author Ghazi Triki
-     * 
+     *
      */
     public class Quran extends EventDispatcher
     {
@@ -38,45 +46,47 @@ package org.lionart.qurani
         //  Properties
         //
         //--------------------------------------------------------------------------
-        
+
         [Bindable]
         /**
-         * 
-         * @return 
-         * 
+         *
+         * @return
+         *
          */
         public var basmalah : Aya;
 
         /**
-         * 
+         *
          */
         private static var _quran : Quran;
 
         /**
-         * 
+         *
          */
         private var connection : SQLConnection;
-        
+
         /**
-         * 
+         *
          */
-        private var souraIdByName : Dictionary; 
-        
+        private var souraIdByName : Dictionary;
+
         /**
-         * 
+         *
          */
-        private var souraInfoById : Dictionary; 
-        
+        private var souraInfoById : Dictionary;
+
+        private var ayaConverter : AyaConverter;
+
         //--------------------------------------------------------------------------
         //
         //  Singleton accessor
         //
         //--------------------------------------------------------------------------
-        
+
         /**
-         * 
-         * @return 
-         * 
+         *
+         * @return
+         *
          */
         public static function getInstance() : Quran
         {
@@ -86,66 +96,105 @@ package org.lionart.qurani
                 _quran.souraIdByName = new Dictionary(true);
                 _quran.souraInfoById = new Dictionary(true);
                 _quran.connection = QuranHelper.getConnection();
-                QuranHelper.executeQuery( Queries.GET_SUWAR_INFO, onSuwarQueryResult );
+                QuranHelper.executeQuery(Queries.GET_SUWAR_INFO, onSuwarQueryResult);
             }
             return _quran;
         }
-        
+
         //--------------------------------------------------------------------------
         //
         //  API Methods
         //
         //--------------------------------------------------------------------------
         /**
-         * 
+         *
          * @param souraNumber
          * @param ayaNumber
-         * 
+         *
          */
         public function getAya( souraNumber : int, ayaNumber : int ) : void
         {
-            QuranHelper.executeQuery( Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId",":ayatLength"], [1,1]);
+            validateSura(souraNumber);
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId", ":ayatLength"], [getInternalAyaNumber(souraNumber, ayaNumber), 1]);
         }
-        
+
+        //--------------------------------------------------------------------------
+        //
+        //  Validation methods
+        //
+        //--------------------------------------------------------------------------
+
         private function validateSura( souraNumber : int ) : void
         {
-            if ( souraNumber < 1 || souraNumber > 114 )
+            if (souraNumber < 1 || souraNumber > QuranConstants.QURAN_SUWAR_NUMBER)
             {
-                throw new QuranException();
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "souraNumberError", [souraNumber]));
             }
         }
-        
-        public function getAyaResultHandler( event : SQLEvent ) : void
+
+        private function getInternalAyaNumber( souraNumber : int, ayaNumber : int ) : int
         {
-            // TODO : convert result to Aya
-            dispatchEvent( new QuranEvent(null, QuranEvent.GET_AYA) );
+            var foundAyaNumber : int;
+            var selectedSouraStartingAyaId : int = Soura(souraInfoById[souraNumber]).startingAyaId;
+
+            var nextSouraStartingAyaId : int = souraNumber != QuranConstants.QURAN_SUWAR_NUMBER
+                ? Soura(souraInfoById[souraNumber + 1]).startingAyaId : QuranConstants.QURAN_AYAT_NUMBER + 1;
+
+            var currentSourLength : int = nextSouraStartingAyaId - selectedSouraStartingAyaId;
+            if ( currentSourLength >= ayaNumber)
+            {
+                foundAyaNumber = selectedSouraStartingAyaId + ayaNumber - 1;
+            }
+            else
+            {
+                // TODO : add nonExisitingAya exception
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "ayaNumberError", [souraInfoById[souraNumber].name, currentSourLength, ayaNumber]));
+            }
+
+            return foundAyaNumber;
         }
-        
-        
+
+
         //--------------------------------------------------------------------------
         //
         //  Events handlers
         //
         //--------------------------------------------------------------------------
         /**
-         * 
+         *
          * @param event
-         * 
+         *
          */
-        private static function onSuwarQueryResult(event:SQLEvent):void
+        private static function onSuwarQueryResult( event : SQLEvent ) : void
         {
-            var resultObj : Object;
-            var soura : Soura;
-            for each( resultObj in event.target.getResult().data )
+            var souraConverter : SouraConverter = new SouraConverter();
+            var result : Array = souraConverter.convertArray(event.target.getResult().data);
+
+            _quran.souraIdByName = result[0];
+            _quran.souraInfoById = result[1];
+
+            souraConverter = null;
+        }
+
+        public function getAyaResultHandler( event : SQLEvent ) : void
+        {
+            // TODO : convert result to Aya
+            dispatchEvent(new QuranEvent(getAyaConverter().convert(event.target.getResult().data[0]), QuranEvent.GET_AYA));
+        }
+
+        //--------------------------------------------------------------------------
+        //
+        //  Converters
+        //
+        //--------------------------------------------------------------------------
+
+        public function getAyaConverter() : AyaConverter
+        {
+            if (!ayaConverter)
             {
-                soura = new Soura();
-                soura.orderInMushaf = resultObj.rowid;
-                soura.makkia = resultObj.makki;
-                soura.name = resultObj.soura_name;
-                _quran.souraIdByName[soura.name] = soura;
-                _quran.souraInfoById[soura.orderInMushaf] = soura;
-                // TODO : to add later other_names, comment
+                ayaConverter = new AyaConverter();
             }
+            return ayaConverter;
         }
 
     }

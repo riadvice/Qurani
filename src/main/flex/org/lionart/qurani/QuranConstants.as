@@ -17,10 +17,9 @@
 package org.lionart.qurani
 {
 
-    public class Hizb
+    public final class QuranConstants
     {
-        [ArrayElementType("org.lionart.qurani.HizbMarker")]
-        public var markers : Array;
-
+        public static const QURAN_SUWAR_NUMBER : int = 114;
+        public static const QURAN_AYAT_NUMBER : int = 6236;
     }
 }

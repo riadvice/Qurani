@@ -17,22 +17,26 @@
 package org.lionart.qurani
 {
 
+    use namespace quran_internal;
+
     public class Soura
     {
         [Bindable]
         public var name : String;
-        
+
         [Bindable]
         public var basmalah : Aya;
-        
+
         [Bindable]
         public var makkia : Boolean;
-        
+
         [Bindable]
         public var orderInMushaf : int;
-        
+
         [Bindable]
         public var ayat : Array;
-        
+
+        quran_internal var startingAyaId : int;
+
     }
 }

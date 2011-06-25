@@ -27,9 +27,9 @@ package org.lionart.qurani
 
     [ExcludeClass]
     /**
-     * 
+     *
      * @author Ghazi Triki
-     * 
+     *
      */
     public class QuranHelper
     {
@@ -43,12 +43,12 @@ package org.lionart.qurani
          * Quran database default connection.
          */
         private static var connection : SQLConnection;
-        
+
         /**
          * Unique statement that will be used to execute queries.
          */
         private static var statement : SQLStatement;
-        
+
         /**
          * The last result handler function is stored here in order
          * to be removed in the next call.
@@ -56,11 +56,11 @@ package org.lionart.qurani
         private static var oldResultHandler : Function;
 
         /**
-         * 
+         *
          * @return SQLConnection that opens the database.
          * This method does also copy the databse the temporary
          * folder to be corretly opened.
-         * 
+         *
          */
         public static function getConnection() : SQLConnection
         {
@@ -81,42 +81,47 @@ package org.lionart.qurani
         }
 
         /**
-         * 
+         *
          * @param query Query string.
          * @param resultHandler The method that will handle result in Quran class.
          * @return SQLStatement containing query.
-         * 
+         *
          */
-        public static function executeQuery( query : String, resultHandler : Function, paramNames : Array = null, params : Array = null) : void
+        public static function executeQuery( query : String, resultHandler : Function, paramNames : Array = null, params : Array = null ) : void
         {
-            if ( statement == null )
+            if (statement == null)
             {
                 statement = new SQLStatement();
                 statement.sqlConnection = getConnection();
             }
-            if ( oldResultHandler != null )
+            if (oldResultHandler != null)
             {
-                statement.removeEventListener( SQLEvent.RESULT, oldResultHandler );
+                statement.removeEventListener(SQLEvent.RESULT, oldResultHandler);
             }
-            fillParameters(statement, paramNames, params );
+            fillParameters(statement, paramNames, params);
             statement.text = query;
-            statement.addEventListener( SQLEvent.RESULT, resultHandler );
+            statement.addEventListener(SQLEvent.RESULT, resultHandler);
             oldResultHandler = resultHandler;
             statement.execute();
         }
-        
+
         public static function fillParameters( statement : SQLStatement, paramNames : Array, params : Array ) : void
         {
-            for ( var i : int = 0; i < paramNames.length; i++ )
+            if (!paramNames || !params)
+            {
+                return;
+            }
+
+            for (var i : int = 0; i < paramNames.length; i++)
             {
                 statement.parameters[paramNames[i]] = params[i];
             }
         }
-        
+
         /**
-         * 
+         *
          * @return Returns true if the connection is in transaction.
-         * 
+         *
          */
         public static function inTransaction() : Boolean
         {

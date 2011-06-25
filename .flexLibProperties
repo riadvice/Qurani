@@ -8,6 +8,8 @@
     <classEntry path="org.lionart.qurani.converters.AyaConverter"/>
     <classEntry path="org.lionart.qurani.events.QuranEvent"/>
     <classEntry path="org.lionart.qurani.exceptions.QuranException"/>
+    <classEntry path="org.lionart.qurani.quran_internal"/>
+    <classEntry path="org.lionart.qurani.QuranConstants"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

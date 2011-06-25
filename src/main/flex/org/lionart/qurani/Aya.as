@@ -19,14 +19,14 @@ package org.lionart.qurani
 
     public class Aya
     {
-        
+
         [Bindable]
-        public var number: String;
-        
+        public var number : String;
+
         [Bindable]
-        public var othmani: String;
-        
+        public var othmani : String;
+
         [Bindable]
-        public var imlai: String;
+        public var imlai : String;
     }
 }

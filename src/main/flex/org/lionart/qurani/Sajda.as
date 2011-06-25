@@ -18,25 +18,25 @@ package org.lionart.qurani
 {
 
     /**
-     * 
+     *
      * @author Ghazi Triki
-     * 
+     *
      */
     public class Sajda
     {
         [Bindable]
         /**
-         * 
+         *
          * The sura number where the Sajda is
-         * 
+         *
          */
         public var suraNumber : int;
 
         [Bindable]
         /**
-         * 
-         * @return 
-         * 
+         *
+         * @return
+         *
          */
         public var ayaNumber : int;
 

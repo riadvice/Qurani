@@ -23,6 +23,8 @@ package org.lionart.qurani.converters
         public function convert( sqlResult : Object ) : Aya
         {
             var aya : Aya = new Aya();
+            aya.imlai = sqlResult.imlai;
+            aya.othmani = sqlResult.othmani;
             return aya;
         }
     }

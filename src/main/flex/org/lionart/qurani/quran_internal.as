@@ -16,11 +16,5 @@
  */
 package org.lionart.qurani
 {
-
-    public class Hizb
-    {
-        [ArrayElementType("org.lionart.qurani.HizbMarker")]
-        public var markers : Array;
-
-    }
+    public namespace quran_internal = "www.lionart.org/2011/qurani";
 }

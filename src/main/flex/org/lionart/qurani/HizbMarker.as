@@ -21,7 +21,7 @@ package org.lionart.qurani
     {
         [Bindable]
         public var ownerSura : int;
-        
+
         [Bindable]
         public var ayaNumber : int;
     }
