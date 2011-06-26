@@ -19,31 +19,31 @@ package org.lionart.qurani.converters
 
     import flash.utils.Dictionary;
 
-    import org.lionart.qurani.Soura;
+    import org.lionart.qurani.Sura;
     import org.lionart.qurani.quran_internal;
 
     use namespace quran_internal;
 
-    public class SouraConverter
+    public class SuraConverter
     {
         public function convertArray( resultArray : Array ) : Array
         {
-            var souraObj : Object;
-            var soura : Soura;
-            var souraIdByName : Dictionary = new Dictionary(true);
-            var souraInfoById : Dictionary = new Dictionary(true);
-            for each (souraObj in resultArray)
+            var suraObj : Object;
+            var sura : Sura;
+            var suraIdByName : Dictionary = new Dictionary(true);
+            var suraInfoById : Dictionary = new Dictionary(true);
+            for each (suraObj in resultArray)
             {
-                soura = new Soura();
-                soura.orderInMushaf = souraObj.rowid;
-                soura.makkia = souraObj.makki;
-                soura.name = souraObj.sura_name;
-                soura.startingAyaId = souraObj.starting_row;
+                sura = new Sura();
+                sura.orderInMushaf = suraObj.rowid;
+                sura.makkia = suraObj.makki;
+                sura.name = suraObj.sura_name;
+                sura.startingAyaId = suraObj.starting_row;
                 // TODO : add other_names and comment
-                souraIdByName[soura.name] = soura;
-                souraInfoById[soura.orderInMushaf] = soura;
+                suraIdByName[sura.name] = sura;
+                suraInfoById[sura.orderInMushaf] = sura;
             }
-            return [souraIdByName, souraInfoById];
+            return [suraIdByName, suraInfoById];
         }
     }
 }

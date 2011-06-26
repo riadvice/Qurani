@@ -19,7 +19,7 @@ package org.lionart.qurani
 
     use namespace quran_internal;
 
-    public class Soura
+    public class Sura
     {
         [Bindable]
         public var name : String;

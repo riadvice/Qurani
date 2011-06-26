@@ -19,7 +19,7 @@ package org.lionart.qurani.exceptions
 
     public class QuranException extends Error
     {
-        public function QuranException( message : *="", id : * = 0 )
+        public function QuranException( message : * = "", id : * = 0 )
         {
             super(message, id);
         }

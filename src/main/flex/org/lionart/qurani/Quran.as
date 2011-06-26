@@ -17,22 +17,25 @@
 package org.lionart.qurani
 {
     import flash.data.SQLConnection;
+    import flash.data.SQLStatement;
     import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
+    import flash.media.Sound;
     import flash.utils.Dictionary;
-    
+
     import mx.resources.ResourceManager;
-    
+
     import org.lionart.qurani.converters.AyaConverter;
-    import org.lionart.qurani.converters.SouraConverter;
+    import org.lionart.qurani.converters.SuraConverter;
     import org.lionart.qurani.events.QuranEvent;
     import org.lionart.qurani.exceptions.QuranException;
 
     use namespace quran_internal;
 
     [ResourceBundle("quran")]
-    
+
     [Event(name = "getAya", type = "org.lionart.qurani.events.QuranEvent")]
+    [Event(name = "getSura", type = "org.lionart.qurani.events.QuranEvent")]
     /**
      *
      * @author Ghazi Triki
@@ -68,12 +71,14 @@ package org.lionart.qurani
         /**
          *
          */
-        private var souraIdByName : Dictionary;
+        private var suraIdByName : Dictionary;
 
         /**
          *
          */
-        private var souraInfoById : Dictionary;
+        private var suraInfoById : Dictionary;
+        
+        private var selectedSurNumber : int;
 
         private var ayaConverter : AyaConverter;
 
@@ -93,8 +98,8 @@ package org.lionart.qurani
             if (_quran == null)
             {
                 _quran = new Quran();
-                _quran.souraIdByName = new Dictionary(true);
-                _quran.souraInfoById = new Dictionary(true);
+                _quran.suraIdByName = new Dictionary(true);
+                _quran.suraInfoById = new Dictionary(true);
                 _quran.connection = QuranHelper.getConnection();
                 QuranHelper.executeQuery(Queries.GET_SUWAR_INFO, onSuwarQueryResult);
             }
@@ -108,14 +113,26 @@ package org.lionart.qurani
         //--------------------------------------------------------------------------
         /**
          *
-         * @param souraNumber
+         * @param suraNumber
          * @param ayaNumber
          *
          */
-        public function getAya( souraNumber : int, ayaNumber : int ) : void
+        public function getAya( suraNumber : int, ayaNumber : int ) : void
         {
-            validateSura(souraNumber);
-            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId", ":ayatLength"], [getInternalAyaNumber(souraNumber, ayaNumber), 1]);
+            validateSura(suraNumber);
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId", ":ayatLength"], [getInternalAyaNumber(suraNumber, ayaNumber), 1]);
+        }
+
+        /**
+         * Extracts a sura with all of its ayat.
+         * @param suraNumber
+         *
+         */
+        public function getSura( suraNumber : int ) : void
+        {
+            validateSura(suraNumber);
+            selectedSurNumber = suraNumber;
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getSuraResultHandler, [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
         }
 
         //--------------------------------------------------------------------------
@@ -124,31 +141,51 @@ package org.lionart.qurani
         //
         //--------------------------------------------------------------------------
 
-        private function validateSura( souraNumber : int ) : void
+        private function validateSura( suraNumber : int ) : void
         {
-            if (souraNumber < 1 || souraNumber > QuranConstants.QURAN_SUWAR_NUMBER)
+            if (suraNumber < 1 || suraNumber > QuranConstants.QURAN_SUWAR_NUMBER)
             {
-                throw new QuranException(ResourceManager.getInstance().getString("quran", "souraNumberError", [souraNumber]));
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNumberError", [suraNumber]));
             }
         }
 
-        private function getInternalAyaNumber( souraNumber : int, ayaNumber : int ) : int
+        /**
+         * Returns the number of ayat of a Sura by its number in the Quran.
+         * @param suraNumber
+         * @return
+         *
+         */
+        public function getSuraLength( suraNumber : int ) : int
         {
-            var foundAyaNumber : int;
-            var selectedSouraStartingAyaId : int = Soura(souraInfoById[souraNumber]).startingAyaId;
-
-            var nextSouraStartingAyaId : int = souraNumber != QuranConstants.QURAN_SUWAR_NUMBER
-                ? Soura(souraInfoById[souraNumber + 1]).startingAyaId : QuranConstants.QURAN_AYAT_NUMBER + 1;
-
-            var currentSourLength : int = nextSouraStartingAyaId - selectedSouraStartingAyaId;
-            if ( currentSourLength >= ayaNumber)
+            var sura : Sura = suraInfoById[suraNumber];
+            if (sura.ayat)
             {
-                foundAyaNumber = selectedSouraStartingAyaId + ayaNumber - 1;
+                return sura.ayat.length;
+            }
+            else
+            {
+                var selectedSuraStartingAyaId : int = Sura(suraInfoById[suraNumber]).startingAyaId;
+
+                var nextSuraStartingAyaId : int = suraNumber != QuranConstants.QURAN_SUWAR_NUMBER
+                    ? Sura(suraInfoById[suraNumber + 1]).startingAyaId : QuranConstants.QURAN_AYAT_NUMBER + 1;
+
+                return nextSuraStartingAyaId - selectedSuraStartingAyaId;
+            }
+        }
+
+        private function getInternalAyaNumber( suraNumber : int, ayaNumber : int ) : int
+        {
+
+            var foundAyaNumber : int;
+            var suraLenght : int = getSuraLength(suraNumber);
+            if (suraLenght >= ayaNumber)
+            {
+                foundAyaNumber = Sura(suraInfoById[suraNumber]).startingAyaId + ayaNumber - 1;
             }
             else
             {
                 // TODO : add nonExisitingAya exception
-                throw new QuranException(ResourceManager.getInstance().getString("quran", "ayaNumberError", [souraInfoById[souraNumber].name, currentSourLength, ayaNumber]));
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "ayaNumberError", [suraInfoById[suraNumber].name, suraLenght, ayaNumber]));
             }
 
             return foundAyaNumber;
@@ -167,19 +204,28 @@ package org.lionart.qurani
          */
         private static function onSuwarQueryResult( event : SQLEvent ) : void
         {
-            var souraConverter : SouraConverter = new SouraConverter();
-            var result : Array = souraConverter.convertArray(event.target.getResult().data);
+            var suraConverter : SuraConverter = new SuraConverter();
+            var result : Array = suraConverter.convertArray(event.target.getResult().data);
 
-            _quran.souraIdByName = result[0];
-            _quran.souraInfoById = result[1];
+            _quran.suraIdByName = result[0];
+            _quran.suraInfoById = result[1];
 
-            souraConverter = null;
+            suraConverter = null;
         }
 
         public function getAyaResultHandler( event : SQLEvent ) : void
         {
-            // TODO : convert result to Aya
             dispatchEvent(new QuranEvent(getAyaConverter().convert(event.target.getResult().data[0]), QuranEvent.GET_AYA));
+        }
+
+        public function getSuraResultHandler( event : SQLEvent ) : void
+        {
+            var resultSura : Sura = Sura(suraInfoById[selectedSurNumber]);
+            if (!resultSura.ayat)
+            {
+                resultSura.ayat = getAyaConverter().convertArray(event.target.getResult().data);
+            }
+            dispatchEvent(new QuranEvent(resultSura, QuranEvent.GET_SURA));
         }
 
         //--------------------------------------------------------------------------

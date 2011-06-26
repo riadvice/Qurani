@@ -4,7 +4,7 @@
     <classEntry path="org.lionart.qurani.HizbMarker"/>
     <classEntry path="org.lionart.qurani.Queries"/>
     <classEntry path="org.lionart.qurani.QuranHelper"/>
-    <classEntry path="org.lionart.qurani.Soura"/>
+    <classEntry path="org.lionart.qurani.Sura"/>
     <classEntry path="org.lionart.qurani.converters.AyaConverter"/>
     <classEntry path="org.lionart.qurani.events.QuranEvent"/>
     <classEntry path="org.lionart.qurani.exceptions.QuranException"/>

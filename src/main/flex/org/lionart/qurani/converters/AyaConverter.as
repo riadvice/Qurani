@@ -27,5 +27,16 @@ package org.lionart.qurani.converters
             aya.othmani = sqlResult.othmani;
             return aya;
         }
+
+        public function convertArray( sqlResult : Array ) : Array
+        {
+            var resultArray : Array = [];
+            var ayaObj : Object;
+            for each (ayaObj in sqlResult)
+            {
+                resultArray.push(convert(ayaObj));
+            }
+            return resultArray;
+        }
     }
 }

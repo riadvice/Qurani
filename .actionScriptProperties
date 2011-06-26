@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties analytics="false" mainApplicationPath="qurani.as" projectUUID="49102f75-1a35-473d-99ec-3096fa10ca8b" version="10">
-  <compiler additionalCompilerArguments="-locale en_US -include-libraries libs/UthmanicHafs.swc -allow-source-path-overlap=true" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src/main/flex" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+  <compiler additionalCompilerArguments="-locale=ar_TN,fr_FR,en_US -include-libraries libs/UthmanicHafs.swc" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src/main/flex" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
-      <compilerSourcePathEntry kind="1" linkType="1" path="src/main/resources/locale/ar_TN"/>
-      <compilerSourcePathEntry kind="1" linkType="1" path="src/main/resources/locale/fr_FR"/>
-      <compilerSourcePathEntry kind="1" linkType="1" path="src/main/resources/locale/en_US"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="src/main/resources/locale/{locale}"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
