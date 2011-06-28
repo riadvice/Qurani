@@ -22,9 +22,9 @@ package org.lionart.qurani
     import flash.events.SQLEvent;
     import flash.media.Sound;
     import flash.utils.Dictionary;
-
+    
     import mx.resources.ResourceManager;
-
+    
     import org.lionart.qurani.converters.AyaConverter;
     import org.lionart.qurani.converters.SuraConverter;
     import org.lionart.qurani.events.QuranEvent;
@@ -133,6 +133,23 @@ package org.lionart.qurani
             validateSura(suraNumber);
             selectedSurNumber = suraNumber;
             QuranHelper.executeQuery(Queries.GET_AYA_SQL, getSuraResultHandler, [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
+        }
+        
+        /**
+         * Extracts a sura with all of its ayat using its arabic name.
+         * @param suraName Sura arabic name.
+         * 
+         */
+        public function getSuraByName( suraName : String ) : void
+        {
+            try
+            {
+                getSura(suraIdByName[suraName].orderInMushaf);
+            }
+            catch( e : Error )
+            {
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNameError", [suraName]));
+            }
         }
 
         //--------------------------------------------------------------------------
