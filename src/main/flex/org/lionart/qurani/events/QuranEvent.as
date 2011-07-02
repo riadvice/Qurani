@@ -19,39 +19,40 @@ package org.lionart.qurani.events
     import flash.events.Event;
 
     /**
-     * 
+     *
      * @author Ghazi Triki
-     * 
+     *
      */
     public class QuranEvent extends Event
     {
         public static const GET_AYA : String = "getAya";
+        public static const GET_ALL_AYAT : String = "getAllAyat";
         public static const GET_SURA : String = "getSura";
-        
+
         private var _result : Object;
-        
+
         /**
-         * 
+         *
          * @param type
          * @param bubbles
          * @param cancelable
-         * 
+         *
          */
         public function QuranEvent( result : Object, type : String, bubbles : Boolean = false, cancelable : Boolean = false )
         {
             _result = result;
             super(type, bubbles, cancelable);
         }
-        
+
         public function get result() : Object
         {
             return _result;
         }
 
         /**
-         * 
+         *
          * @inheritDoc
-         * 
+         *
          */
         override public function clone() : Event
         {

@@ -17,14 +17,12 @@
 package org.lionart.qurani
 {
     import flash.data.SQLConnection;
-    import flash.data.SQLStatement;
     import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
-    import flash.media.Sound;
     import flash.utils.Dictionary;
-    
+
     import mx.resources.ResourceManager;
-    
+
     import org.lionart.qurani.converters.AyaConverter;
     import org.lionart.qurani.converters.SuraConverter;
     import org.lionart.qurani.events.QuranEvent;
@@ -35,6 +33,7 @@ package org.lionart.qurani
     [ResourceBundle("quran")]
 
     [Event(name = "getAya", type = "org.lionart.qurani.events.QuranEvent")]
+    [Event(name = "getAllAyat", type = "org.lionart.qurani.events.QuranEvent")]
     [Event(name = "getSura", type = "org.lionart.qurani.events.QuranEvent")]
     /**
      *
@@ -77,7 +76,7 @@ package org.lionart.qurani
          *
          */
         private var suraInfoById : Dictionary;
-        
+
         private var selectedSurNumber : int;
 
         private var ayaConverter : AyaConverter;
@@ -112,6 +111,26 @@ package org.lionart.qurani
         //
         //--------------------------------------------------------------------------
         /**
+         * Get the number of suwar in the Holy Quran.
+         * @return 114, the number suwar in the Holy Quran
+         *
+         */
+        public function getSuwarCount() : int
+        {
+            return QuranConstants.QURAN_SUWAR_NUMBER;
+        }
+
+        /**
+         * Get the number of ayat in the Holy Quran.
+         * @return 6236, the number of ayat in the Holy Quran
+         *
+         */
+        public function getAyatCount() : int
+        {
+            return QuranConstants.QURAN_SUWAR_NUMBER;
+        }
+
+        /**
          *
          * @param suraNumber
          * @param ayaNumber
@@ -121,6 +140,17 @@ package org.lionart.qurani
         {
             validateSura(suraNumber);
             QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId", ":ayatLength"], [getInternalAyaNumber(suraNumber, ayaNumber), 1]);
+        }
+
+        public function getAllAyat() : void
+        {
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAllHandler, [":ayaId", ":ayatLength"], [1, QuranConstants.QURAN_SUWAR_NUMBER]);
+        }
+
+        public function getAllHandler( event : SQLEvent ) : void
+        {
+            var result : Array = getAyaConverter().convertArray(event.target.getResult().data);
+            dispatchEvent(new QuranEvent(result, QuranEvent.GET_ALL_AYAT));
         }
 
         /**
@@ -134,11 +164,11 @@ package org.lionart.qurani
             selectedSurNumber = suraNumber;
             QuranHelper.executeQuery(Queries.GET_AYA_SQL, getSuraResultHandler, [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
         }
-        
+
         /**
          * Extracts a sura with all of its ayat using its arabic name.
          * @param suraName Sura arabic name.
-         * 
+         *
          */
         public function getSuraByName( suraName : String ) : void
         {
@@ -146,7 +176,7 @@ package org.lionart.qurani
             {
                 getSura(suraIdByName[suraName].orderInMushaf);
             }
-            catch( e : Error )
+            catch ( e : Error )
             {
                 throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNameError", [suraName]));
             }

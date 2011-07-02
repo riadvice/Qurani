@@ -17,6 +17,7 @@
 package org.lionart.qurani
 {
 
+    [ExcludeClass]
     public final class QuranConstants
     {
         public static const QURAN_SUWAR_NUMBER : int = 114;
