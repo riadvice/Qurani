@@ -144,7 +144,7 @@ package org.lionart.qurani
 
         public function getAllAyat() : void
         {
-            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAllHandler, [":ayaId", ":ayatLength"], [1, QuranConstants.QURAN_SUWAR_NUMBER]);
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAllHandler, [":ayaId", ":ayatLength"], [1, QuranConstants.QURAN_AYAT_NUMBER]);
         }
 
         public function getAllHandler( event : SQLEvent ) : void
