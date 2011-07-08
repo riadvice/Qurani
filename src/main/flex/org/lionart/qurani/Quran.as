@@ -25,16 +25,12 @@ package org.lionart.qurani
 
     import org.lionart.qurani.converters.AyaConverter;
     import org.lionart.qurani.converters.SuraConverter;
-    import org.lionart.qurani.events.QuranEvent;
     import org.lionart.qurani.exceptions.QuranException;
 
     use namespace quran_internal;
 
     [ResourceBundle("quran")]
 
-    [Event(name = "getAya", type = "org.lionart.qurani.events.QuranEvent")]
-    [Event(name = "getAllAyat", type = "org.lionart.qurani.events.QuranEvent")]
-    [Event(name = "getSura", type = "org.lionart.qurani.events.QuranEvent")]
     /**
      *
      * @author Ghazi Triki
@@ -136,33 +132,54 @@ package org.lionart.qurani
          * @param ayaNumber
          *
          */
-        public function getAya( suraNumber : int, ayaNumber : int ) : void
+        public function getAya( suraNumber : int, ayaNumber : int ) : Aya
         {
             validateSura(suraNumber);
-            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAyaResultHandler, [":ayaId", ":ayatLength"], [getInternalAyaNumber(suraNumber, ayaNumber), 1]);
+
+            var result : Aya;
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, function( event : SQLEvent ) : void
+            {
+                result = getAyaConverter().convert(event.target.getResult().data[0]);
+            }
+
+            , [":ayaId", ":ayatLength"], [getInternalAyaNumber(suraNumber, ayaNumber), 1]);
+            return result;
         }
 
-        public function getAllAyat() : void
+        public function getAllAyat() : Array
         {
-            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getAllHandler, [":ayaId", ":ayatLength"], [1, QuranConstants.QURAN_AYAT_NUMBER]);
+            var result : Array;
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, function( event : SQLEvent ) : void
+            {
+                result = getAyaConverter().convertArray(event.target.getResult().data);
+            }
+
+            , [":ayaId", ":ayatLength"], [1, QuranConstants.QURAN_AYAT_NUMBER]);
+            return result;
         }
 
-        public function getAllHandler( event : SQLEvent ) : void
-        {
-            var result : Array = getAyaConverter().convertArray(event.target.getResult().data);
-            dispatchEvent(new QuranEvent(result, QuranEvent.GET_ALL_AYAT));
-        }
 
         /**
          * Extracts a sura with all of its ayat.
          * @param suraNumber
          *
          */
-        public function getSura( suraNumber : int ) : void
+        public function getSura( suraNumber : int ) : Sura
         {
             validateSura(suraNumber);
+            var resultSura : Sura;
             selectedSurNumber = suraNumber;
-            QuranHelper.executeQuery(Queries.GET_AYA_SQL, getSuraResultHandler, [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, function( event : SQLEvent ) : void
+            {
+                resultSura = Sura(suraInfoById[selectedSurNumber]);
+                if (!resultSura.ayat)
+                {
+                    resultSura.ayat = getAyaConverter().convertArray(event.target.getResult().data);
+                }
+            }
+
+            , [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
+            return resultSura;
         }
 
         /**
@@ -180,6 +197,17 @@ package org.lionart.qurani
             {
                 throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNameError", [suraName]));
             }
+        }
+
+        public function getSuwarNames() : Array
+        {
+            var sura : Sura;
+            var result : Array = [];
+            for each (sura in suraInfoById)
+            {
+                result.push(sura.name);
+            }
+            return result;
         }
 
         //--------------------------------------------------------------------------
@@ -258,21 +286,6 @@ package org.lionart.qurani
             _quran.suraInfoById = result[1];
 
             suraConverter = null;
-        }
-
-        public function getAyaResultHandler( event : SQLEvent ) : void
-        {
-            dispatchEvent(new QuranEvent(getAyaConverter().convert(event.target.getResult().data[0]), QuranEvent.GET_AYA));
-        }
-
-        public function getSuraResultHandler( event : SQLEvent ) : void
-        {
-            var resultSura : Sura = Sura(suraInfoById[selectedSurNumber]);
-            if (!resultSura.ayat)
-            {
-                resultSura.ayat = getAyaConverter().convertArray(event.target.getResult().data);
-            }
-            dispatchEvent(new QuranEvent(resultSura, QuranEvent.GET_SURA));
         }
 
         //--------------------------------------------------------------------------
