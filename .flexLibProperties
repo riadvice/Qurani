@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
   <includeClasses>
+    <classEntry path="org.lionart.qurani.Aya"/>
+    <classEntry path="org.lionart.qurani.Hizb"/>
     <classEntry path="org.lionart.qurani.HizbMarker"/>
     <classEntry path="org.lionart.qurani.Queries"/>
+    <classEntry path="org.lionart.qurani.Quran"/>
     <classEntry path="org.lionart.qurani.QuranConstants"/>
     <classEntry path="org.lionart.qurani.QuranHelper"/>
+    <classEntry path="org.lionart.qurani.Sajda"/>
     <classEntry path="org.lionart.qurani.Sura"/>
     <classEntry path="org.lionart.qurani.converters.AyaConverter"/>
+    <classEntry path="org.lionart.qurani.converters.SuraConverter"/>
     <classEntry path="org.lionart.qurani.exceptions.QuranException"/>
     <classEntry path="org.lionart.qurani.quran_internal"/>
   </includeClasses>

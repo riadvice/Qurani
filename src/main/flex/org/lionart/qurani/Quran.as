@@ -56,22 +56,17 @@ package org.lionart.qurani
         /**
          *
          */
-        private static var _quran : Quran;
+        private static var connection : SQLConnection;
 
         /**
          *
          */
-        private var connection : SQLConnection;
+        private static var suraIdByName : Dictionary;
 
         /**
          *
          */
-        private var suraIdByName : Dictionary;
-
-        /**
-         *
-         */
-        private var suraInfoById : Dictionary;
+        private static var suraInfoById : Dictionary;
 
         private var selectedSurNumber : int;
 
@@ -79,28 +74,21 @@ package org.lionart.qurani
 
         //--------------------------------------------------------------------------
         //
-        //  Singleton accessor
+        //  Constructor
         //
         //--------------------------------------------------------------------------
 
-        /**
-         *
-         * @return
-         *
-         */
-        public static function getInstance() : Quran
+        public function Quran()
         {
-            if (_quran == null)
+            if ( connection == null )
             {
-                _quran = new Quran();
-                _quran.suraIdByName = new Dictionary(true);
-                _quran.suraInfoById = new Dictionary(true);
-                _quran.connection = QuranHelper.getConnection();
+                suraIdByName = new Dictionary(true);
+                suraInfoById = new Dictionary(true);
+                connection = QuranHelper.getConnection();
                 QuranHelper.executeQuery(Queries.GET_SUWAR_INFO, onSuwarQueryResult);
             }
-            return _quran;
         }
-
+        
         //--------------------------------------------------------------------------
         //
         //  API Methods
@@ -282,8 +270,8 @@ package org.lionart.qurani
             var suraConverter : SuraConverter = new SuraConverter();
             var result : Array = suraConverter.convertArray(event.target.getResult().data);
 
-            _quran.suraIdByName = result[0];
-            _quran.suraInfoById = result[1];
+            suraIdByName = result[0];
+            suraInfoById = result[1];
 
             suraConverter = null;
         }
