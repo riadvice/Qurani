@@ -14,7 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani
 {
     import flash.data.SQLConnection;
     import flash.events.EventDispatcher;
@@ -23,9 +23,9 @@ package org.lionart.qurani
 
     import mx.resources.ResourceManager;
 
-    import org.lionart.qurani.converters.AyaConverter;
-    import org.lionart.qurani.converters.SuraConverter;
-    import org.lionart.qurani.exceptions.QuranException;
+    import com.alkiteb.qurani.converters.AyaConverter;
+    import com.alkiteb.qurani.converters.SuraConverter;
+    import com.alkiteb.qurani.exceptions.QuranException;
 
     use namespace quran_internal;
 
@@ -80,7 +80,7 @@ package org.lionart.qurani
 
         public function Quran()
         {
-            if ( connection == null )
+            if (connection == null)
             {
                 suraIdByName = new Dictionary(true);
                 suraInfoById = new Dictionary(true);
@@ -88,7 +88,7 @@ package org.lionart.qurani
                 QuranHelper.executeQuery(Queries.GET_SUWAR_INFO, onSuwarQueryResult);
             }
         }
-        
+
         //--------------------------------------------------------------------------
         //
         //  API Methods

@@ -14,13 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani
 {
-
-    public class Hizb
-    {
-        [ArrayElementType("org.lionart.qurani.HizbMarker")]
-        public var markers : Array;
-
-    }
+    public namespace quran_internal = "www.lionart.org/2011/qurani";
 }

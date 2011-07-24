@@ -14,19 +14,13 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani
 {
 
-    public class Aya
+    public class Hizb
     {
+        [ArrayElementType("com.alkiteb.qurani.HizbMarker")]
+        public var markers : Array;
 
-        [Bindable]
-        public var number : String;
-
-        [Bindable]
-        public var othmani : String;
-
-        [Bindable]
-        public var imlai : String;
     }
 }

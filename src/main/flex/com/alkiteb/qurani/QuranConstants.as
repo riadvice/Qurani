@@ -14,29 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani.converters
+package com.alkiteb.qurani
 {
-    import org.lionart.qurani.Aya;
 
-    public class AyaConverter
+    public final class QuranConstants
     {
-        public function convert( sqlResult : Object ) : Aya
-        {
-            var aya : Aya = new Aya();
-            aya.imlai = sqlResult.imlai;
-            aya.othmani = sqlResult.othmani;
-            return aya;
-        }
-
-        public function convertArray( sqlResult : Array ) : Array
-        {
-            var resultArray : Array = [];
-            var ayaObj : Object;
-            for each (ayaObj in sqlResult)
-            {
-                resultArray.push(convert(ayaObj));
-            }
-            return resultArray;
-        }
+        include "../qurani/font.as";
+        
+        public static const QURAN_SUWAR_NUMBER : int = 114;
+        public static const QURAN_AYAT_NUMBER : int = 6236;
     }
 }

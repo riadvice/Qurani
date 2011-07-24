@@ -14,15 +14,29 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani
 {
 
-    [ExcludeClass]
-    public final class QuranConstants
+    use namespace quran_internal;
+
+    public class Sura
     {
-        include "../qurani/font.as";
-        
-        public static const QURAN_SUWAR_NUMBER : int = 114;
-        public static const QURAN_AYAT_NUMBER : int = 6236;
+        [Bindable]
+        public var name : String;
+
+        [Bindable]
+        public var basmalah : Aya;
+
+        [Bindable]
+        public var makkia : Boolean;
+
+        [Bindable]
+        public var orderInMushaf : int;
+
+        [Bindable]
+        public var ayat : Array;
+
+        quran_internal var startingAyaId : int;
+
     }
 }

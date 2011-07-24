@@ -14,13 +14,13 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani.converters
+package com.alkiteb.qurani.converters
 {
 
     import flash.utils.Dictionary;
 
-    import org.lionart.qurani.Sura;
-    import org.lionart.qurani.quran_internal;
+    import com.alkiteb.qurani.Sura;
+    import com.alkiteb.qurani.quran_internal;
 
     use namespace quran_internal;
 

@@ -14,14 +14,15 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani.exceptions
+package com.alkiteb.qurani
 {
 
-    public class QuranException extends Error
+    public class HizbMarker
     {
-        public function QuranException( message : * = "", id : * = 0 )
-        {
-            super(message, id);
-        }
+        [Bindable]
+        public var ownerSura : int;
+
+        [Bindable]
+        public var ayaNumber : int;
     }
 }

@@ -14,31 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani
 {
 
-    /**
-     *
-     * @author Ghazi Triki
-     *
-     */
-    public class Sajda
+    public class Aya
     {
-        [Bindable]
-        /**
-         *
-         * The sura number where the Sajda is
-         *
-         */
-        public var suraNumber : int;
 
         [Bindable]
-        /**
-         *
-         * @return
-         *
-         */
-        public var ayaNumber : int;
+        public var number : String;
 
+        [Bindable]
+        public var othmani : String;
+
+        [Bindable]
+        public var imlai : String;
     }
 }

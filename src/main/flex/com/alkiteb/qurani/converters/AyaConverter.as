@@ -14,15 +14,29 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.lionart.qurani
+package com.alkiteb.qurani.converters
 {
+    import com.alkiteb.qurani.Aya;
 
-    public class HizbMarker
+    public class AyaConverter
     {
-        [Bindable]
-        public var ownerSura : int;
+        public function convert( sqlResult : Object ) : Aya
+        {
+            var aya : Aya = new Aya();
+            aya.imlai = sqlResult.imlai;
+            aya.othmani = sqlResult.othmani;
+            return aya;
+        }
 
-        [Bindable]
-        public var ayaNumber : int;
+        public function convertArray( sqlResult : Array ) : Array
+        {
+            var resultArray : Array = [];
+            var ayaObj : Object;
+            for each (ayaObj in sqlResult)
+            {
+                resultArray.push(convert(ayaObj));
+            }
+            return resultArray;
+        }
     }
 }
