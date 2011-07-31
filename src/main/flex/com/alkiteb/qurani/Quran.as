@@ -16,16 +16,16 @@
  */
 package com.alkiteb.qurani
 {
+    import com.alkiteb.qurani.converters.AyaConverter;
+    import com.alkiteb.qurani.converters.SuraConverter;
+    import com.alkiteb.qurani.exceptions.QuranException;
+
     import flash.data.SQLConnection;
     import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
     import flash.utils.Dictionary;
 
     import mx.resources.ResourceManager;
-
-    import com.alkiteb.qurani.converters.AyaConverter;
-    import com.alkiteb.qurani.converters.SuraConverter;
-    import com.alkiteb.qurani.exceptions.QuranException;
 
     use namespace quran_internal;
 
@@ -54,22 +54,28 @@ package com.alkiteb.qurani
         public var basmalah : Aya;
 
         /**
-         *
+         * @private
          */
         private static var connection : SQLConnection;
 
         /**
-         *
+         * @private
          */
         private static var suraIdByName : Dictionary;
 
         /**
-         *
+         * @private
          */
         private static var suraInfoById : Dictionary;
 
+        /**
+         * @private
+         */
         private var selectedSurNumber : int;
 
+        /**
+         * @private
+         */
         private var ayaConverter : AyaConverter;
 
         //--------------------------------------------------------------------------
@@ -78,6 +84,10 @@ package com.alkiteb.qurani
         //
         //--------------------------------------------------------------------------
 
+        /**
+         *
+         *
+         */
         public function Quran()
         {
             if (connection == null)
@@ -99,7 +109,7 @@ package com.alkiteb.qurani
          * @return 114, the number suwar in the Holy Quran
          *
          */
-        public function getSuwarCount() : int
+        public static function getSuwarCount() : int
         {
             return QuranConstants.QURAN_SUWAR_NUMBER;
         }
@@ -109,15 +119,30 @@ package com.alkiteb.qurani
          * @return 6236, the number of ayat in the Holy Quran
          *
          */
-        public function getAyatCount() : int
+        public static function getAyatCount() : int
         {
             return QuranConstants.QURAN_SUWAR_NUMBER;
         }
 
         /**
          *
-         * @param suraNumber
-         * @param ayaNumber
+         * @return The Basmalah Aya, the first Aya in the Holy Quran.
+         *
+         */
+        public function getBasmalah() : Aya
+        {
+            if (basmalah == null)
+            {
+                basmalah = getAya(1, 1)
+            }
+            return basmalah;
+        }
+
+        /**
+         * Returns an Aya by specifying its sura number and its number.
+         * @param suraNumber The number of the sura that contains the aya.
+         * @param ayaNumber The number of the aya that will be returned.
+         * @return
          *
          */
         public function getAya( suraNumber : int, ayaNumber : int ) : Aya
@@ -134,6 +159,11 @@ package com.alkiteb.qurani
             return result;
         }
 
+        /**
+         *
+         * @return Array containing all the suwar of the Holy Quran.
+         *
+         */
         public function getAllAyat() : Array
         {
             var result : Array;
@@ -148,8 +178,9 @@ package com.alkiteb.qurani
 
 
         /**
-         * Extracts a sura with all of its ayat.
-         * @param suraNumber
+         * Extracts a sura with all of its ayat
+         * @param suraNumber The number of sura that will be retruned.
+         * @return
          *
          */
         public function getSura( suraNumber : int ) : Sura
@@ -175,18 +206,25 @@ package com.alkiteb.qurani
          * @param suraName Sura arabic name.
          *
          */
-        public function getSuraByName( suraName : String ) : void
+        public function getSuraByName( suraName : String ) : Sura
         {
+            var sura : Sura;
             try
             {
-                getSura(suraIdByName[suraName].orderInMushaf);
+                sura = getSura(suraIdByName[suraName].orderInMushaf);
             }
             catch ( e : Error )
             {
                 throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNameError", [suraName]));
             }
+            return sura;
         }
 
+        /**
+         *
+         * @return Array of String containing all the suwar names of the Holy Quran.
+         *
+         */
         public function getSuwarNames() : Array
         {
             var sura : Sura;
@@ -204,6 +242,11 @@ package com.alkiteb.qurani
         //
         //--------------------------------------------------------------------------
 
+        /**
+         *
+         * @param suraNumber
+         *
+         */
         private function validateSura( suraNumber : int ) : void
         {
             if (suraNumber < 1 || suraNumber > QuranConstants.QURAN_SUWAR_NUMBER)
@@ -236,6 +279,13 @@ package com.alkiteb.qurani
             }
         }
 
+        /**
+         *
+         * @param suraNumber
+         * @param ayaNumber
+         * @return
+         *
+         */
         private function getInternalAyaNumber( suraNumber : int, ayaNumber : int ) : int
         {
 
@@ -282,6 +332,11 @@ package com.alkiteb.qurani
         //
         //--------------------------------------------------------------------------
 
+        /**
+         *
+         * @return
+         *
+         */
         public function getAyaConverter() : AyaConverter
         {
             if (!ayaConverter)

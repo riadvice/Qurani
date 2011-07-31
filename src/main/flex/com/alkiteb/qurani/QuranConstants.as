@@ -17,6 +17,7 @@
 package com.alkiteb.qurani
 {
 
+    [ExcludeClass]
     public final class QuranConstants
     {
         include "../qurani/font.as";
