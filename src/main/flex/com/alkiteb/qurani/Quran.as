@@ -17,6 +17,7 @@
 package com.alkiteb.qurani
 {
     import com.alkiteb.qurani.converters.AyaConverter;
+    import com.alkiteb.qurani.converters.PageConverter;
     import com.alkiteb.qurani.converters.SuraConverter;
     import com.alkiteb.qurani.exceptions.QuranException;
 
@@ -77,6 +78,11 @@ package com.alkiteb.qurani
          * @private
          */
         private var ayaConverter : AyaConverter;
+
+        /**
+         * @private
+         */
+        private var pageConverter : PageConverter;
 
         //--------------------------------------------------------------------------
         //
@@ -236,6 +242,57 @@ package com.alkiteb.qurani
             return result;
         }
 
+		/**
+		 * Returns a page of the Quran. 
+		 * @param number the page number, must be between 1 and 604.
+		 * @return Page object containing ayat of the page itself.
+		 * 
+		 */
+        public function getPage( number : int ) : Page
+        {
+            var result : Page;
+            QuranHelper.executeQuery(Queries.GET_PAGE, function( event : SQLEvent ) : void
+            {
+                result = getPageConverter().convert(event.target.getResult().data[0]);
+            }
+
+            , [':pageId'], [number]);
+
+            // We extract the next page to know the limit of the current page
+            var nextPage : Page;
+            if (result.number < QuranConstants.QURAN_PAGE_NUMBER)
+            {
+                QuranHelper.executeQuery(Queries.GET_PAGE, function( event : SQLEvent ) : void
+                {
+                    nextPage = getPageConverter().convert(event.target.getResult().data[0]);
+                }
+
+                , [':pageId'], [number + 1]);
+            }
+
+            // If the there is a next page
+            var pageAyatLength : int;
+            var currentPageStartAyaNumber : int = getInternalAyaNumber(result.startSura, result.startAya);
+            try
+            {
+                pageAyatLength = getInternalAyaNumber(nextPage.startSura, nextPage.startAya) - currentPageStartAyaNumber;
+            }
+            catch ( e : Error )
+            {
+                pageAyatLength = QuranConstants.QURAN_AYAT_NUMBER - currentPageStartAyaNumber + 1;
+            }
+
+            // We extract ayat here
+            QuranHelper.executeQuery(Queries.GET_AYA_SQL, function( event : SQLEvent ) : void
+            {
+                result.ayat = getAyaConverter().convertArray(event.target.getResult().data);
+            }
+
+            , [":ayaId", ":ayatLength"], [currentPageStartAyaNumber, pageAyatLength]);
+
+            return result;
+        }
+
         //--------------------------------------------------------------------------
         //
         //  Validation methods
@@ -334,16 +391,30 @@ package com.alkiteb.qurani
 
         /**
          *
-         * @return
+         * @private
          *
          */
-        public function getAyaConverter() : AyaConverter
+        private function getAyaConverter() : AyaConverter
         {
             if (!ayaConverter)
             {
                 ayaConverter = new AyaConverter();
             }
             return ayaConverter;
+        }
+
+		/**
+		 * 
+		 * @private 
+		 * 
+		 */
+        private function getPageConverter() : PageConverter
+        {
+            if (!pageConverter)
+            {
+                pageConverter = new PageConverter();
+            }
+            return pageConverter;
         }
 
     }

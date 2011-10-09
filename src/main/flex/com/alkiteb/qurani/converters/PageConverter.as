@@ -14,14 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alkiteb.qurani
+package com.alkiteb.qurani.converters
 {
+    import com.alkiteb.qurani.Page;
 
-    [ExcludeClass]
-    public class Queries
+    public class PageConverter
     {
-        public static const GET_AYA_SQL : String = "SELECT othmani, imlai FROM Quran WHERE id >= :ayaId ORDER BY id LIMIT :ayatLength";
-        public static const GET_SUWAR_INFO : String = 'SELECT rowid, sura_name, other_names, makki, starting_row, comment FROM SuraInfo ORDER BY rowid';
-        public static const GET_PAGE : String = 'SELECT id, sura, aya FROM Page where id = :pageId';
+        public function convert( sqlResult : Object ) : Page
+        {
+            var page : Page = new Page();
+            page.number = sqlResult.id;
+            page.startSura = sqlResult.sura;
+            page.startAya = sqlResult.aya;
+            return page;
+        }
     }
 }

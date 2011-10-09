@@ -14,6 +14,8 @@
     <classEntry path="com.alkiteb.qurani.converters.SuraConverter"/>
     <classEntry path="com.alkiteb.qurani.exceptions.QuranException"/>
     <classEntry path="com.alkiteb.qurani.quran_internal"/>
+    <classEntry path="com.alkiteb.qurani.Page"/>
+    <classEntry path="com.alkiteb.qurani.converters.PageConverter"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
