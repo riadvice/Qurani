@@ -25,5 +25,6 @@ package com.alkiteb.qurani
         public static const QURAN_SUWAR_NUMBER : int = 114;
         public static const QURAN_AYAT_NUMBER : int = 6236;
 		public static const QURAN_PAGE_NUMBER : int = 604;
+		public static const QURAN_HIZB_NUMBER : int = 60;
     }
 }

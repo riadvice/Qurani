@@ -17,10 +17,10 @@
 package com.alkiteb.qurani.converters
 {
 
-    import flash.utils.Dictionary;
-
     import com.alkiteb.qurani.Sura;
     import com.alkiteb.qurani.quran_internal;
+
+    import flash.utils.Dictionary;
 
     use namespace quran_internal;
 

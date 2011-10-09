@@ -17,6 +17,7 @@
 package com.alkiteb.qurani
 {
     import com.alkiteb.qurani.converters.AyaConverter;
+    import com.alkiteb.qurani.converters.HizbConverter;
     import com.alkiteb.qurani.converters.PageConverter;
     import com.alkiteb.qurani.converters.SuraConverter;
     import com.alkiteb.qurani.exceptions.QuranException;
@@ -83,6 +84,11 @@ package com.alkiteb.qurani
          * @private
          */
         private var pageConverter : PageConverter;
+
+        /**
+         * @private
+         */
+        private var hizbConverter : HizbConverter;
 
         //--------------------------------------------------------------------------
         //
@@ -294,6 +300,21 @@ package com.alkiteb.qurani
             return result;
         }
 
+        public function getHizb( hizbNumber : int ) : Hizb
+        {
+            validateHizb(hizbNumber);
+            var hizbStartIndex : int = (hizbNumber - 1) * 4;
+            var result : Hizb;
+            QuranHelper.executeQuery(Queries.GET_HIZB, function( event : SQLEvent ) : void
+            {
+                result = getHizbConverter().convert(event.target.getResult().data);
+            }
+
+            , [':hizbStartIndex'], [hizbStartIndex]);
+
+            return result;
+        }
+
         //--------------------------------------------------------------------------
         //
         //  Validation methods
@@ -323,6 +344,14 @@ package com.alkiteb.qurani
             if (pageNumber < 1 || pageNumber > QuranConstants.QURAN_PAGE_NUMBER)
             {
                 throw new QuranException(ResourceManager.getInstance().getString("quran", "pageNumberError", [pageNumber]));
+            }
+        }
+
+        private function validateHizb( hizbNumber : int ) : void
+        {
+            if (hizbNumber < 1 || hizbNumber > QuranConstants.QURAN_HIZB_NUMBER)
+            {
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "hizbNumberError", [hizbNumber]));
             }
         }
 
@@ -429,6 +458,20 @@ package com.alkiteb.qurani
                 pageConverter = new PageConverter();
             }
             return pageConverter;
+        }
+
+        /**
+         *
+         * @private
+         *
+         */
+        private function getHizbConverter() : HizbConverter
+        {
+            if (!hizbConverter)
+            {
+                hizbConverter = new HizbConverter();
+            }
+            return hizbConverter;
         }
 
     }
