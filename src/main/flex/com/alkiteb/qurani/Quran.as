@@ -242,21 +242,22 @@ package com.alkiteb.qurani
             return result;
         }
 
-		/**
-		 * Returns a page of the Quran. 
-		 * @param number the page number, must be between 1 and 604.
-		 * @return Page object containing ayat of the page itself.
-		 * 
-		 */
-        public function getPage( number : int ) : Page
+        /**
+         * Returns a page of the Quran.
+         * @param number the page number, must be between 1 and 604.
+         * @return Page object containing ayat of the page itself.
+         *
+         */
+        public function getPage( pageNumber : int ) : Page
         {
+            validatePage(pageNumber);
             var result : Page;
             QuranHelper.executeQuery(Queries.GET_PAGE, function( event : SQLEvent ) : void
             {
                 result = getPageConverter().convert(event.target.getResult().data[0]);
             }
 
-            , [':pageId'], [number]);
+            , [':pageId'], [pageNumber]);
 
             // We extract the next page to know the limit of the current page
             var nextPage : Page;
@@ -267,7 +268,7 @@ package com.alkiteb.qurani
                     nextPage = getPageConverter().convert(event.target.getResult().data[0]);
                 }
 
-                , [':pageId'], [number + 1]);
+                , [':pageId'], [pageNumber + 1]);
             }
 
             // If the there is a next page
@@ -309,6 +310,19 @@ package com.alkiteb.qurani
             if (suraNumber < 1 || suraNumber > QuranConstants.QURAN_SUWAR_NUMBER)
             {
                 throw new QuranException(ResourceManager.getInstance().getString("quran", "suraNumberError", [suraNumber]));
+            }
+        }
+
+        /**
+         *
+         * @param pageNumber
+         *
+         */
+        private function validatePage( pageNumber : int ) : void
+        {
+            if (pageNumber < 1 || pageNumber > QuranConstants.QURAN_PAGE_NUMBER)
+            {
+                throw new QuranException(ResourceManager.getInstance().getString("quran", "pageNumberError", [pageNumber]));
             }
         }
 
@@ -403,11 +417,11 @@ package com.alkiteb.qurani
             return ayaConverter;
         }
 
-		/**
-		 * 
-		 * @private 
-		 * 
-		 */
+        /**
+         *
+         * @private
+         *
+         */
         private function getPageConverter() : PageConverter
         {
             if (!pageConverter)
