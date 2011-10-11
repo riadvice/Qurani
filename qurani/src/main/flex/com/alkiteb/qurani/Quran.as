@@ -210,6 +210,9 @@ package com.alkiteb.qurani
             }
 
             , [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
+            
+            resultSura.basmalah = getBasmalah();
+            
             return resultSura;
         }
 
