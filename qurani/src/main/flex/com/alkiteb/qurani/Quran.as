@@ -133,7 +133,7 @@ package com.alkiteb.qurani
          */
         public static function getAyatCount() : int
         {
-            return QuranConstants.QURAN_SUWAR_NUMBER;
+            return QuranConstants.QURAN_AYAT_NUMBER;
         }
 
         /**
