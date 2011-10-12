@@ -1,14 +1,15 @@
 package com.alkiteb.qurani
 {
+    import com.alkiteb.qurani.*;
+
+    import flash.text.Font;
+
     import flexunit.framework.Assert;
+
+    import mx.core.FontAsset;
 
     public class QuranTest
     {
-        private const QURAN_SUWAR_NUMBER : int = 114;
-        private const QURAN_AYAT_NUMBER : int = 6236;
-        private const QURAN_PAGE_NUMBER : int = 604;
-        private const QURAN_HIZB_NUMBER : int = 60;
-
         private var quran : Quran;
         private var basmalah : Aya;
         private var suwarLength : Array;
@@ -57,7 +58,7 @@ package com.alkiteb.qurani
         public function testGetAya() : void
         {
             var aya : Aya;
-            for (var s : int = 1; s <= QURAN_SUWAR_NUMBER; s++)
+            for (var s : int = 1; s <= QuranConstants.QURAN_SUWAR_NUMBER; s++)
             {
                 for (var a : int = 1; a <= suwarLength[s - 1]; a++)
                 {
@@ -87,7 +88,7 @@ package com.alkiteb.qurani
         public function testGetHizb() : void
         {
             var hizb : Hizb;
-            for (var i : int = 1; i <= QURAN_HIZB_NUMBER; i++)
+            for (var i : int = 1; i <= QuranConstants.QURAN_HIZB_NUMBER; i++)
             {
                 hizb = quran.getHizb(i);
                 Assert.assertEquals(hizb.markers.length, 4);
@@ -98,7 +99,7 @@ package com.alkiteb.qurani
         public function testGetPage() : void
         {
             var page : Page;
-            for (var i : int = 1; i <= QURAN_PAGE_NUMBER; i++)
+            for (var i : int = 1; i <= QuranConstants.QURAN_PAGE_NUMBER; i++)
             {
                 page = quran.getPage(i);
                 Assert.assertEquals(page.number, i);
@@ -112,7 +113,7 @@ package com.alkiteb.qurani
         public function testGetSura() : void
         {
             var sura : Sura;
-            for (var i : int = 1; i <= QURAN_SUWAR_NUMBER; i++)
+            for (var i : int = 1; i <= QuranConstants.QURAN_SUWAR_NUMBER; i++)
             {
                 sura = quran.getSura(i);
                 validateSura(sura);
@@ -125,7 +126,7 @@ package com.alkiteb.qurani
         {
             var sura : Sura;
             var suwarNames : Array = quran.getSuwarNames();
-            Assert.assertEquals(suwarNames.length, QURAN_SUWAR_NUMBER);
+            Assert.assertEquals(suwarNames.length, QuranConstants.QURAN_SUWAR_NUMBER);
 
             for (var i : int = 0; i < suwarNames.length; i++)
             {
@@ -137,7 +138,7 @@ package com.alkiteb.qurani
         [Test]
         public function testGetSuraLength() : void
         {
-            for (var i : int = 1; i <= QURAN_SUWAR_NUMBER; i++)
+            for (var i : int = 1; i <= QuranConstants.QURAN_SUWAR_NUMBER; i++)
             {
                 Assert.assertEquals(quran.getSuraLength(i), suwarLength[i - 1])
             }
@@ -146,13 +147,58 @@ package com.alkiteb.qurani
         [Test]
         public function testGetSuwarCount() : void
         {
-            Assert.assertEquals(quran.getSuwarNames().length, Quran.getSuwarCount(), QURAN_SUWAR_NUMBER);
+            Assert.assertEquals(quran.getSuwarNames().length, Quran.getSuwarCount(), QuranConstants.QURAN_SUWAR_NUMBER);
         }
 
         [Test]
         public function testGetSuwarNames() : void
         {
-            Assert.assertEquals(quran.getSuwarNames().length, QURAN_SUWAR_NUMBER);
+            Assert.assertEquals(quran.getSuwarNames().length, QuranConstants.QURAN_SUWAR_NUMBER);
+        }
+
+        [Test]
+        public function testUthmanicHafsFont() : void
+        {
+            var uthmanicHafsFont : Font = Font.enumerateFonts(false)[0];
+            Assert.assertEquals(uthmanicHafsFont.fontName, "UthmanicHafs");
+            Assert.assertEquals(uthmanicHafsFont.fontStyle, "regular");
+            Assert.assertEquals(uthmanicHafsFont.fontType, "embeddedCFF");
+
+            var includedChars : String = "";
+            var i : int;
+            for (i = 48; i <= 57; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1552; i <= 1557; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1569; i <= 1594; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1600; i <= 1630; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1632; i <= 1641; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1646; i <= 1646; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1648; i <= 1649; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            for (i = 1750; i <= 1773; i++)
+            {
+                includedChars += String.fromCharCode(i);
+            }
+            Assert.assertTrue(uthmanicHafsFont.hasGlyphs(includedChars));
         }
 
         private function validateSura( sura : Sura ) : void
