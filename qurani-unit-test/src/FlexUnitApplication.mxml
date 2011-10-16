@@ -9,14 +9,12 @@
                        creationComplete="onCreationComplete()">
     <fx:Script>
         <![CDATA[
-            import com.alkiteb.qurani.QuranTest;
             import com.alkiteb.qurani.testsuite.QuraniTestSuite;
             
             public function currentRunTestSuite():Array
             {
                 var testsToRun:Array = new Array();
                 testsToRun.push(com.alkiteb.qurani.testsuite.QuraniTestSuite);
-                testsToRun.push(com.alkiteb.qurani.QuranTest);
                 return testsToRun;
             }
             

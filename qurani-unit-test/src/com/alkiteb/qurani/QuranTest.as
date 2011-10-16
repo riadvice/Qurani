@@ -1,6 +1,6 @@
 package com.alkiteb.qurani
 {
-    import com.alkiteb.qurani.*;
+    import com.alkiteb.qurani.QuranConstants;
 
     import flash.text.Font;
 
