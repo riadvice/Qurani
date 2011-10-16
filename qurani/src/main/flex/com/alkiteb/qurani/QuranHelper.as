@@ -89,12 +89,16 @@ package com.alkiteb.qurani
          */
         public static function executeQuery( query : String, resultHandler : Function, paramNames : Array = null, params : Array = null ) : void
         {
-            if (oldResultHandler != null)
+            if (!statement)
             {
+                statement = new SQLStatement();
+                statement.sqlConnection = getConnection();
+            }
+            else
+            {
+                statement.clearParameters();
                 statement.removeEventListener(SQLEvent.RESULT, oldResultHandler);
             }
-            statement = new SQLStatement();
-            statement.sqlConnection = getConnection();
             fillParameters(statement, paramNames, params);
             statement.text = query;
             statement.addEventListener(SQLEvent.RESULT, resultHandler);
