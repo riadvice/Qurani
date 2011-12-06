@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/3.0">
+<application xmlns="http://ns.adobe.com/air/application/3.1">
 
 <!-- Adobe AIR Application Descriptor File Template.
 
 	Specifies parameters for identifying, installing, and launching AIR applications.
 
-	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/3.0
+	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/3.1
 			The last segment of the namespace specifies the version 
 			of the AIR runtime required for this application to run.
 			
@@ -99,7 +99,7 @@
 
         <!-- <fullScreen></fullScreen> -->
 
-        <!-- The render mode for the app (either auto, cpu, or gpu). Optional. Mobile only. Default auto -->
+        <!-- The render mode for the app (either auto, cpu, gpu, or direct). Optional. Default auto -->
 
         <!-- <renderMode></renderMode> -->
 
@@ -107,7 +107,7 @@
 		<!-- <softKeyboardBehavior></softKeyboardBehavior> -->
 	<autoOrients>false</autoOrients>
         <fullScreen>false</fullScreen>
-        <visible>false</visible>
+        <visible>true</visible>
     </initialWindow>
 
 	<!-- We recommend omitting the supportedProfiles element, -->
@@ -190,6 +190,16 @@
                 <string>YES</string>
             ]]>
         </InfoAdditions> -->
+        <!-- A list of plist key/value pairs to be added to the application Entitlements.plist -->
+		<!-- <Entitlements>
+            <![CDATA[
+                <key>keychain-access-groups</key>
+                <array>
+                    <string></string>
+                    <string></string>
+                </array>
+            ]]>
+        </Entitlements> -->
 	<!-- Display Resolution for the app (either "standard" or "high"). Optional. Default "standard" -->
 	<!-- <requestedDisplayResolution></requestedDisplayResolution> -->
 	<!-- </iPhone> -->
