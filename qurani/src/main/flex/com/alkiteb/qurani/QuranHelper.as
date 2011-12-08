@@ -19,11 +19,14 @@ package com.alkiteb.qurani
     import flash.data.SQLConnection;
     import flash.data.SQLMode;
     import flash.data.SQLStatement;
+    import flash.events.Event;
     import flash.events.SQLEvent;
     import flash.filesystem.File;
     import flash.filesystem.FileMode;
     import flash.filesystem.FileStream;
     import flash.utils.ByteArray;
+
+    import mx.core.FlexGlobals;
 
     [ExcludeClass]
     /**
@@ -56,6 +59,11 @@ package com.alkiteb.qurani
         private static var oldResultHandler : Function;
 
         /**
+         * This string contains the name of the temporary database file.
+         */
+        private static var dbFileName : String;
+
+        /**
          *
          * @return SQLConnection that opens the database.
          * This method does also copy the databse the temporary
@@ -75,6 +83,7 @@ package com.alkiteb.qurani
                 fileStream.open(file, FileMode.WRITE);
                 fileStream.writeBytes(byteArray);
                 fileStream.close();
+                addCloseListenerToMainApp(file.nativePath);
                 connection.open(file, SQLMode.READ);
             }
             return connection
@@ -106,6 +115,13 @@ package com.alkiteb.qurani
             statement.execute();
         }
 
+        /**
+         * Fills in a statement with parameters using an Array of names and an Array of values
+         * @param statement SQLStatement to fill in with parameters
+         * @param paramNames An array containing the name of parameters
+         * @param params An Array containing the value of parameters to add
+         *
+         */
         public static function fillParameters( statement : SQLStatement, paramNames : Array, params : Array ) : void
         {
             if (!paramNames || !params)
@@ -127,6 +143,30 @@ package com.alkiteb.qurani
         public static function inTransaction() : Boolean
         {
             return connection.inTransaction;
+        }
+
+        /**
+         * Adds an event listener to the main application for the "closing" event.
+         * @param tempDbFileName The temorary database file name
+         *
+         */
+        private static function addCloseListenerToMainApp( tempDbFileName : String ) : void
+        {
+            dbFileName = tempDbFileName;
+            FlexGlobals.topLevelApplication.addEventListener(Event.CLOSING, mainAppClosingHandler);
+        }
+
+        /**
+         * Removes the event listener for "closing" event from the main application
+         * then deletes the temporary database file.
+         * @param event
+         *
+         */
+        private static function mainAppClosingHandler( event : Event ) : void
+        {
+            FlexGlobals.topLevelApplication.removeEventListener(Event.CLOSING, mainAppClosingHandler);
+            connection.close();
+            new File(dbFileName).deleteFile();
         }
     }
 }
