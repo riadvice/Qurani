@@ -146,7 +146,7 @@ package com.alkiteb.qurani
             if (basmalah == null)
             {
                 basmalah = getAya(1, 1);
-				basmalah.othmani = basmalah.othmani.substr(0, basmalah.othmani.length - 2);
+                basmalah.othmani = basmalah.othmani.substr(0, basmalah.othmani.length - 2);
             }
             return basmalah;
         }
@@ -212,11 +212,11 @@ package com.alkiteb.qurani
 
             , [":ayaId", ":ayatLength"], [Sura(suraInfoById[suraNumber]).startingAyaId, getSuraLength(suraNumber)]);
 
-			// Al-Fatihah and Attawbah does not have basmalah
-			if ( suraNumber != 1 && suraNumber != 9 )
-			{
-	            resultSura.basmalah = getBasmalah();
-			}
+            // Al-Fatihah and Attawbah does not have basmalah
+            if (suraNumber != 1 && suraNumber != 9)
+            {
+                resultSura.basmalah = getBasmalah();
+            }
 
             return resultSura;
         }

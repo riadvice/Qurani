@@ -1,12 +1,24 @@
+/*
+   Copyright (C) 2011 Ghazi Triki <ghazi.nocturne@gmail.com>
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.alkiteb.qurani
 {
-    import com.alkiteb.qurani.QuranConstants;
-
     import flash.text.Font;
 
     import flexunit.framework.Assert;
-
-    import mx.core.FontAsset;
 
     public class QuranTest
     {
@@ -81,7 +93,7 @@ package com.alkiteb.qurani
         {
             var result : Aya = quran.getBasmalah();
             Assert.assertEquals(result.imlai, basmalah.imlai);
-			// We truncate the aya number from basmalah
+            // We truncate the aya number from basmalah
             Assert.assertEquals(result.othmani, basmalah.othmani);
         }
 
@@ -205,11 +217,11 @@ package com.alkiteb.qurani
         private function validateSura( sura : Sura ) : void
         {
             Assert.assertEquals(sura.ayat.length, suwarLength[sura.orderInMushaf - 1]);
-			if ( sura.orderInMushaf != 1 && sura.orderInMushaf != 9 )
-			{
-	            Assert.assertEquals(sura.basmalah.imlai, basmalah.imlai);
-	            Assert.assertEquals(sura.basmalah.othmani, basmalah.othmani);
-			}
+            if (sura.orderInMushaf != 1 && sura.orderInMushaf != 9)
+            {
+                Assert.assertEquals(sura.basmalah.imlai, basmalah.imlai);
+                Assert.assertEquals(sura.basmalah.othmani, basmalah.othmani);
+            }
         }
 
     }

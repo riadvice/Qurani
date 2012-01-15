@@ -21,10 +21,10 @@ package com.alkiteb.qurani
     {
         [Bindable]
         public var number : int;
-        
+
         [Bindable]
         public var startSura : int;
-        
+
         [Bindable]
         public var startAya : int;
 
