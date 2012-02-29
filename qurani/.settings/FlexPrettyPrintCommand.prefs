@@ -1,4 +1,4 @@
-#Sun Jul 31 21:21:33 CEST 2011
+#Mon Dec 05 21:15:54 CET 2011
 ASRearr_AddDefaultHeaderForProperties=1
 ASRearr_AddDefaultHeaderForStaticProperties=1
 ASRearr_BlankLinesBeforeElement=
@@ -28,7 +28,7 @@ ASRearr_ModifierOrder_Property=<Namespace>,override,native,public,private,protec
 ASRearr_MoveImportsOutsideClass=true
 ASRearr_RemoveExistingCopyrightHeaders=false
 ASRearr_RemoveExistingSectionHeaders=false
-ASRearr_SectionHeaderMap=\#\r\n\#Sun Jul 31 21\:21\:33 CEST 2011\r\n
+ASRearr_SectionHeaderMap=\#\r\n\#Mon Dec 05 21\:15\:54 CET 2011\r\n
 ASRearr_SortGettersAndSettersWithAssociatedProperties=true
 ASRearr_SortGettersAndSettersWithAssociatedStaticProperties=true
 ASRearr_UseCopyrightGeneration=false
@@ -111,6 +111,7 @@ Actionscript.keepElseIfOnSameLine=true
 Actionscript.keepSLCommentsOnColumn1=true
 Actionscript.keepSpacesBeforeLineComments=false
 Actionscript.leaveExtraWhitespaceAroundVarDecls=false
+Actionscript.leaveSingleLineFunctions=false
 Actionscript.maxLineLength=200
 Actionscript.newLineBeforeBindableFunction=true
 Actionscript.newLineBeforeBindableProperty=true
@@ -194,5 +195,8 @@ MXML.useFormattingOfBoundAttributes=false
 MXML.useSpacesInsideAttributeBraces=false
 MXML.useTagsDoNotFormatInside=false
 MXML.wrapIndentStyle=1001
+MXMLRearr_RearrangeTagOrdering=.*\:Binding,.*\:Component,.*\:Declarations,.*\:Definition,.*\:DesignLayer,.*\:Library,.*\:Metadata,.*\:Model,.*\:Private,.*\:Reparent,.*\:Script,.*\:Style,.*\:XML,.*\:XMLList,.*\:operation,.*\:request,.*\:method,.*\:arguments,.*\:states,.*\:layout,\#\#\#UnmatchedTags\#\#\#,
+MXMLRearr_RearrangeWhileFormatting=false
+MXMLRearr_UseRearrangeTagOrdering=false
 UseProjectSettings=false
 eclipse.preferences.version=1
