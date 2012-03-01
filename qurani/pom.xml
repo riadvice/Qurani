@@ -25,7 +25,8 @@
         <air.version.major>3</air.version.major>
         <air.version.minor>0</air.version.minor>
         <air.version>${air.version.major}.${air.version.minor}</air.version>
-        <locale>en_US</locale>
+        <locale.en>en_US</locale.en>
+        <locale.fr>fr_FR</locale.fr>
     </properties>
 
     <dependencies>
@@ -62,7 +63,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
-                    <exclude>**/*.db</exclude>
+                    <exclude>**/*.*</exclude>
                     <exclude>**/*.otf</exclude>
                 </excludes>
             </resource>
@@ -89,8 +90,11 @@
                     <targetPlayer>${flashplayer.version}</targetPlayer>
                     <swfVersion>${flashplayer.version.swf}</swfVersion>
                     <optimize>true</optimize>
+                    <allowSourcePathOverlap>true</allowSourcePathOverlap>
+                    <resourceBundlePath>src/main/resources/locale</resourceBundlePath>
                     <locales>
-                        <param>${locale}</param>
+                        <param>${locale.en}</param>
+                        <param>${locale.fr}</param>
                     </locales>
                     <updateSecuritySandbox>true</updateSecuritySandbox>
                 </configuration>
