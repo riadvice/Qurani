@@ -16,17 +16,15 @@
  */
 package com.alkiteb.qurani
 {
+    import flash.events.EventDispatcher;
 
-    public class Aya
+    [Bindable]
+    public class Aya extends EventDispatcher
     {
-
-        [Bindable]
         public var number : String;
 
-        [Bindable]
         public var othmani : String;
 
-        [Bindable]
         public var imlai : String;
     }
 }

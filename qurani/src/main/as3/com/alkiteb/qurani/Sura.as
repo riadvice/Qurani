@@ -16,24 +16,21 @@
  */
 package com.alkiteb.qurani
 {
+    import flash.events.EventDispatcher;
 
     use namespace quran_internal;
 
-    public class Sura
+    [Bindable]
+    public class Sura extends EventDispatcher
     {
-        [Bindable]
         public var name : String;
 
-        [Bindable]
         public var basmalah : Aya;
 
-        [Bindable]
         public var makkia : Boolean;
 
-        [Bindable]
         public var orderInMushaf : int;
 
-        [Bindable]
         public var ayat : Array;
 
         quran_internal var startingAyaId : int;

@@ -16,15 +16,17 @@
  */
 package com.alkiteb.qurani
 {
+    import flash.events.EventDispatcher;
 
+    [Bindable]
     /**
      *
      * @author Ghazi Triki
      *
      */
-    public class Sajda
+    public class Sajda extends EventDispatcher
     {
-        [Bindable]
+
         /**
          *
          * The sura number where the Sajda is
@@ -32,7 +34,6 @@ package com.alkiteb.qurani
          */
         public var suraNumber : int;
 
-        [Bindable]
         /**
          *
          * @return

@@ -16,19 +16,17 @@
  */
 package com.alkiteb.qurani
 {
+    import flash.events.EventDispatcher;
 
-    public class Page
+    [Bindable]
+    public class Page extends EventDispatcher
     {
-        [Bindable]
         public var number : int;
 
-        [Bindable]
         public var startSura : int;
 
-        [Bindable]
         public var startAya : int;
 
-        [Bindable]
         public var ayat : Array;
     }
 }

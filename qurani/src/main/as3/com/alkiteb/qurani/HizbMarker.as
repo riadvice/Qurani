@@ -16,13 +16,13 @@
  */
 package com.alkiteb.qurani
 {
+    import flash.events.EventDispatcher;
 
-    public class HizbMarker
+    [Bindable]
+    public class HizbMarker extends EventDispatcher
     {
-        [Bindable]
         public var ownerSura : int;
 
-        [Bindable]
         public var ayaNumber : int;
     }
 }
