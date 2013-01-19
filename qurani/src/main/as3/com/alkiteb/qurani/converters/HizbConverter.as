@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2011 Ghazi Triki <ghazi.nocturne@gmail.com>
+   Copyright (C) 2011-2013 Ghazi Triki <ghazi.nocturne@gmail.com>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
