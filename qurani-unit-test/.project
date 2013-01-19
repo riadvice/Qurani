@@ -18,7 +18,6 @@
 	</buildSpec>
 	<natures>
 		<nature>com.adobe.flexbuilder.project.apollonature</nature>
-		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
 </projectDescription>
