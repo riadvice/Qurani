@@ -23,7 +23,6 @@ package com.alkiteb.qurani
     import com.alkiteb.qurani.exceptions.QuranException;
 
     import flash.data.SQLConnection;
-    import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
     import flash.utils.Dictionary;
 
@@ -38,7 +37,7 @@ package com.alkiteb.qurani
      * @author Ghazi Triki
      *
      */
-    public class Quran extends EventDispatcher
+    public class Quran
     {
 
         //--------------------------------------------------------------------------

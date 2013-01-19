@@ -21,10 +21,7 @@ package com.alkiteb.qurani
     public final class QuranConstants
     {
 
-        [Embed(source = "/../resources/fonts/UthmanicHafs1 Ver09.otf",
-            fontName = "UthmanicHafs",
-            mimeType = "application/x-font-truetype",
-            unicodeRange = "U+0030-0039,U+0610-0615,U+0621-063A,U+0640-065E,U+0660-0669,U+066E,U+0670-0671,U+06D6-06ED")]
+        [Embed(source = "/../resources/fonts/UthmanicHafs1_Ver09.swf", symbol = "UthmanicHafs")]
         private static const uthmanHafsFont : Class;
 
         public static const QURAN_SUWAR_NUMBER : int = 114;
