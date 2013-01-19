@@ -26,7 +26,7 @@ package com.alkiteb.qurani
     import flash.filesystem.FileStream;
     import flash.utils.ByteArray;
 
-    import mx.core.FlexGlobals;
+    // import mx.core.FlexGlobals;
 
     [ExcludeClass]
     /**
@@ -153,7 +153,7 @@ package com.alkiteb.qurani
         private static function addCloseListenerToMainApp( tempDbFileName : String ) : void
         {
             dbFileName = tempDbFileName;
-            FlexGlobals.topLevelApplication.addEventListener(Event.CLOSING, mainAppClosingHandler);
+            //FlexGlobals.topLevelApplication.addEventListener(Event.CLOSING, mainAppClosingHandler);
         }
 
         /**
@@ -164,7 +164,7 @@ package com.alkiteb.qurani
          */
         private static function mainAppClosingHandler( event : Event ) : void
         {
-            FlexGlobals.topLevelApplication.removeEventListener(Event.CLOSING, mainAppClosingHandler);
+            //FlexGlobals.topLevelApplication.removeEventListener(Event.CLOSING, mainAppClosingHandler);
             connection.close();
             new File(dbFileName).deleteFile();
         }
