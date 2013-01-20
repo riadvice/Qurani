@@ -21,12 +21,12 @@ package com.alkiteb.qurani
     import com.alkiteb.qurani.converters.PageConverter;
     import com.alkiteb.qurani.converters.SuraConverter;
     import com.alkiteb.qurani.exceptions.QuranException;
-    
+
     import flash.data.SQLConnection;
     import flash.events.EventDispatcher;
     import flash.events.SQLEvent;
     import flash.utils.Dictionary;
-    
+
     import mx.resources.ResourceManager;
 
     use namespace quran_internal;

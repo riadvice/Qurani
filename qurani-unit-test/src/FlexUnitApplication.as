@@ -18,7 +18,7 @@ package
 {
     import Array;
 
-    import com.alkiteb.qurani.testsuite.QuraniTestSuite;
+    import com.alkiteb.qurani.QuranTest;
 
     import flash.display.Sprite;
 
@@ -42,7 +42,7 @@ package
         public function currentRunTestSuite() : Array
         {
             var testsToRun : Array = new Array();
-            testsToRun.push(com.alkiteb.qurani.testsuite.QuraniTestSuite);
+            testsToRun.push(com.alkiteb.qurani.QuranTest);
             return testsToRun;
         }
     }

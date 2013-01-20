@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="qurani-unit-test">
-<testsuite name="com.alkiteb.qurani.testsuite:QuraniTestSuite" type="testsuiteclass"/>
+<testsuite name="com.alkiteb.qurani:QuranTest" type="testsuiteclass"/>
+<testsuite name="com.alkiteb.qurani.testsuite:QuraniTestSuite" type="testcaseclass"/>
 </testsuite>
 <portNumber value="8765" />
 </testrun>
