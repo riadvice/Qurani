@@ -16,10 +16,9 @@
  */
 package com.alkiteb.qurani
 {
-    import flash.events.EventDispatcher;
 
     [Bindable]
-    public class Aya extends EventDispatcher
+    public class Aya
     {
         public var number : String;
 

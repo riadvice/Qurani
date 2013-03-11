@@ -16,12 +16,10 @@
  */
 package com.alkiteb.qurani
 {
-    import flash.events.EventDispatcher;
-
     use namespace quran_internal;
 
     [Bindable]
-    public class Sura extends EventDispatcher
+    public class Sura
     {
         public var name : String;
 

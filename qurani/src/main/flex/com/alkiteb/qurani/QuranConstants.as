@@ -16,30 +16,20 @@
  */
 package com.alkiteb.qurani
 {
-    import flash.events.EventDispatcher;
 
-    [Bindable]
-    /**
-     *
-     * @author Ghazi Triki
-     *
-     */
-    public class Sajda extends EventDispatcher
+    [ExcludeClass]
+    public final class QuranConstants
     {
 
-        /**
-         *
-         * The sura number where the Sajda is
-         *
-         */
-        public var suraNumber : int;
+        [Embed(source = "/../resources/fonts/UthmanicHafs1 Ver09.otf",
+            fontName = "UthmanicHafs",
+            mimeType = "application/x-font-truetype",
+            unicodeRange = "U+0030-0039,U+0610-0615,U+0621-063A,U+0640-065E,U+0660-0669,U+066E,U+0670-0671,U+06D6-06ED")]
+        private static const uthmanHafsFont : Class;
 
-        /**
-         *
-         * @return
-         *
-         */
-        public var ayaNumber : int;
-
+        public static const QURAN_SUWAR_NUMBER : int = 114;
+        public static const QURAN_AYAT_NUMBER : int = 6236;
+        public static const QURAN_PAGE_NUMBER : int = 604;
+        public static const QURAN_HIZB_NUMBER : int = 60;
     }
 }

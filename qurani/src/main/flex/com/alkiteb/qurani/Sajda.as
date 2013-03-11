@@ -17,10 +17,28 @@
 package com.alkiteb.qurani
 {
 
-    public class Hizb
+    [Bindable]
+    /**
+     *
+     * @author Ghazi Triki
+     *
+     */
+    public class Sajda
     {
-        [ArrayElementType("com.alkiteb.qurani.HizbMarker")]
-        public var markers : Array;
+
+        /**
+         *
+         * The sura number where the Sajda is
+         *
+         */
+        public var suraNumber : int;
+
+        /**
+         *
+         * @return
+         *
+         */
+        public var ayaNumber : int;
 
     }
 }

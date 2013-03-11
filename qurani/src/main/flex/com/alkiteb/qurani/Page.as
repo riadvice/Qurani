@@ -17,16 +17,15 @@
 package com.alkiteb.qurani
 {
 
-    [ExcludeClass]
-    public final class QuranConstants
+    [Bindable]
+    public class Page
     {
+        public var number : int;
 
-        [Embed(source = "/../resources/fonts/UthmanicHafs1_Ver09.swf", symbol = "UthmanicHafs")]
-        private static const uthmanHafsFont : Class;
+        public var startSura : int;
 
-        public static const QURAN_SUWAR_NUMBER : int = 114;
-        public static const QURAN_AYAT_NUMBER : int = 6236;
-        public static const QURAN_PAGE_NUMBER : int = 604;
-        public static const QURAN_HIZB_NUMBER : int = 60;
+        public var startAya : int;
+
+        public var ayat : Array;
     }
 }

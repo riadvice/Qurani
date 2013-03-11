@@ -16,17 +16,12 @@
  */
 package com.alkiteb.qurani
 {
-    import flash.events.EventDispatcher;
 
     [Bindable]
-    public class Page extends EventDispatcher
+    public class Hizb
     {
-        public var number : int;
+        [ArrayElementType("com.alkiteb.qurani.HizbMarker")]
+        public var markers : Array;
 
-        public var startSura : int;
-
-        public var startAya : int;
-
-        public var ayat : Array;
     }
 }
