@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2011-2013 Ghazi Triki <ghazi.nocturne@gmail.com>
+   Copyright (C) 2011-2013 RIADVICE <ghazi.triki@riadvice.tn>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,15 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alkiteb.qurani
+package com.riadvice.qurani.converters
 {
-    import com.alkiteb.qurani.QuranTest;
+    import com.riadvice.qurani.Page;
 
-    [Suite]
-    [RunWith("org.flexunit.runners.Suite")]
-    public class QuraniTestSuite
+    public class PageConverter
     {
-        public var test1 : com.alkiteb.qurani.QuranTest;
-
+        public function convert( sqlResult : Object ) : Page
+        {
+            var page : Page = new Page();
+            page.number = sqlResult.id;
+            page.startSura = sqlResult.sura;
+            page.startAya = sqlResult.aya;
+            return page;
+        }
     }
 }

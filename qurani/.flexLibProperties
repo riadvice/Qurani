@@ -2,8 +2,6 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="com.alkiteb.qurani.Aya"/>
-    <classEntry path="com.alkiteb.qurani.Hizb"/>
-    <classEntry path="com.alkiteb.qurani.HizbMarker"/>
     <classEntry path="com.alkiteb.qurani.Page"/>
     <classEntry path="com.alkiteb.qurani.Queries"/>
     <classEntry path="com.alkiteb.qurani.Quran"/>
